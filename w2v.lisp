@@ -140,7 +140,7 @@ of deriving useful abstract patterns of behavior events and relationships from l
 (setq embed-size 10)
 (setq window-size 2)
 (setq lr 0.01)
-(setq num-iterations 5)
+(setq num-iterations 50)
 
 (setq w2v (word2vec example num-iterations embed-size window-size lr))
 
