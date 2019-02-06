@@ -132,15 +132,17 @@
 
 ;; (----------------- EXAMPLE USEAGE ----------------------------)
 
+;; For best results, preproccess input to remove punctuation and special characters (and optionally, stopwords)
 (setq example "babies do not start intellectually as tabulae rasae they rapidly build abstract knowledge and
 concepts and learn language with relatively little input at the symbolic ie linguistic level to build
 machines with such abilities we need to equip them with the symbolic machinery that can represent the kinds
 of abstract knowledge to be learned ways of using that knowledge for inference of various sorts and ways
 of deriving useful abstract patterns of behavior events and relationships from linguistic input")
-(setq embed-size 10)
-(setq window-size 2)
-(setq lr 0.01)
-(setq num-iterations 50)
+
+(setq embed-size 10) ;; Size of embedding
+(setq window-size 2) ;; Size of skip-gram window
+(setq lr 0.01) ;; Learning rate
+(setq num-iterations 50) ;; Number of iterations
 
 (setq w2v (word2vec example num-iterations embed-size window-size lr))
 
