@@ -144,9 +144,13 @@ of deriving useful abstract patterns of behavior events and relationships from l
 (setq lr 0.01) ;; Learning rate
 (setq num-iterations 50) ;; Number of iterations
 
+;; Create and train word2vec model
+;; Returns pair (encoding, model), where encoding is a hash table mapping words to one-hot encodings,
+;; and model is the pair of weights in the trained model, (w1, w2).
 (setq w2v (word2vec example num-iterations embed-size window-size lr))
 
-(format t "~a~%" (word-sim "tabulae" 3 w2v))
+;; Print 5 most similar words to "tabulae"
+(format t "~a~%" (word-sim "tabulae" 5 w2v))
 
 
 
