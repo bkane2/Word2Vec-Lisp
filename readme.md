@@ -1,5 +1,6 @@
 Word2Vec prototype for Lisp
 
+** NOTE: Update dependencies **
 Requires [Allegro Common Lisp](https://franz.com/products/allegro-common-lisp/) and [Quicklisp](https://www.quicklisp.org/beta/)
 
 
