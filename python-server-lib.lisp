@@ -1,6 +1,8 @@
 ;;; Written by Gene Kim 2-19-2019
 ;;; File with functions to interface with python repl server
 
+;; python python-repl-server.py 8080 "g:g"
+
 (in-package :word2vec)
 
 (defparameter *python-server-url* "http://localhost:8080")
@@ -8,6 +10,19 @@
 (defparameter *python-server-password* "g")
 
 (defvar *python-call-methods* '(socket shell))
+
+;; Gets variable and returns a keyed pair (variable_name . variable_val)
+(defmacro keyarg (x) `(if ,x (cons ',x ,x) nil))
+
+;; Takes list and turns into string representing python array
+(defun list-to-array (list)
+  (cond
+    ((not list) "")
+    ((atom list) (if (stringp list) (format nil "'~a'" list) (format nil "~a" list)))
+    (t (let ((ret "["))
+      (dolist (l list) (setq ret (concatenate 'string ret (list-to-array l) ", ")))
+      (setq ret (concatenate 'string ret "]"))
+      ret))))
 
 ;; Takes the function name, list of required arguments, followed by an
 ;; association list of (key . arg) pairs for keyed arguments and returns
@@ -21,7 +36,7 @@
                           (loop for (key . value) in keyed-args
                                 collect (intern (format nil "~(~a~)=~a" key value))))))
     (cl-strings:join
-      (list (format nil "~(~a~)" fnname) "(" rarg-str "," karg-str ")"))))
+      (list (format nil "~a" fnname) "(" rarg-str "," karg-str ")"))))
 
 
 ;; Makes a python call via a socket to a server that interprets it.
@@ -46,83 +61,3 @@
     (if raw-request-result
       (funcall post-proc-fn raw-request-result)
       raw-request-result)))
-
-
-;; ;; Flag for setting up the python server for pattern.en and the function that
-;; ;; performs the setup. The function sets the flag to t so it's not rerun.
-;; (defparameter *setup-complete* nil)
-;; (defun setup-pattern-en-server ()
-;;   (python-over-socket "from pattern.en import *" 'exec)
-;;   ;; For some reason these aren't defined in pattern.en
-;;   (python-over-socket "IMPERFECTIVE='imperfective'" 'exec)
-;;   (python-over-socket "PERFECTIVE='perfective'" 'exec)
-;;   (setq *setup-complete* t))
-
-
-;; ;; Makes a python-call to pattern.en using the provided method.
-;; (defun make-pattern-en-call (python-call python-method)
-;;   ;; TODO: add a check that we can connect to the server.  if not, default to
-;;   ;; the shell version.
-;;   (case python-method
-;;     ;; Run the python call over a socket.
-;;     ('socket
-;;       (if (not *setup-complete*)
-;;         (setup-pattern-en-server))
-;;       (python-over-socket python-call 'eval))
-;;     ;; Run the python call through the shell.
-;;     ('shell
-;;       (inferior-shell:run/s
-;;         `(python call-pattern-en-fn.py
-;;                  ,python-call)))))
-
-
-;; ;; Takes an input verb string and conjugation parameters and returns a
-;; ;; conjugated verb string.
-;; (defun pattern-en-conjugate (verb &key
-;;                                   (tense 'PRESENT)
-;;                                   (person 3)
-;;                                   (number 'SG)
-;;                                   (mood 'INDICATIVE)
-;;                                   (aspect 'IMPERFECTIVE)
-;;                                   (negated '|False|)
-;;                                   (parse '|True|)
-;;                                   (python-method 'socket))
-;;   ;; Assert that all the arguments are valid.
-;;   (assert (member tense (cdr (assoc 'tense *conjugate-params*))))
-;;   (assert (member person (cdr (assoc 'person *conjugate-params*))))
-;;   (assert (member number (cdr (assoc 'number *conjugate-params*))))
-;;   (assert (member mood (cdr (assoc 'mood *conjugate-params*))))
-;;   (assert (member aspect (cdr (assoc 'aspect *conjugate-params*))))
-;;   (assert (member negated (cdr (assoc 'negated *conjugate-params*))))
-;;   (assert (member parse (cdr (assoc 'parse *conjugate-params*))))
-;;   (assert (member python-method *python-call-methods*))
-
-;;   (let* (;; Construct an keyed argument list by getting the value for each
-;;          ;; parameter.
-;;          (arglist `((tense . ,tense)
-;;                     (person . ,person)
-;;                     (number . ,number)
-;;                     (mood . ,mood)
-;;                     (aspect . ,aspect)
-;;                     (negated . ,negated)
-;;                     (parse . ,parse)))
-;;          ;; Construct the Python function call.
-;;          (python-call (python-call 'conjugate (list verb) arglist)))
-;;     ;; Since it's all the same case anyway, make it upper case so it doesn't force
-;;     ;; a case sensitive symbol.
-;;     (string-upcase
-;;       (make-pattern-en-call python-call python-method))))
-
-
-;; ;; Takes an input noun string and pluralizes it.
-;; ;; NB: The pattern.en function has some additional parameters, but they don't
-;; ;; seem useful for the ULF project so they're not suppoted currently.
-;; (defun pattern-en-pluralize (noun &key (python-method 'socket)
-;;                                        (preserve-case nil))
-;;   (assert (member python-method *python-call-methods*))
-;;   (let* ((python-call (python-call 'pluralize (list noun) nil))
-;;          (rawout (make-pattern-en-call python-call python-method)))
-;;     (if preserve-case
-;;       rawout
-;;       (string-upcase rawout))))
-

@@ -7,6 +7,9 @@ output is returned.
 
 This server only responds to POST requests and OPTIONS to allow
 cross-origin requests.
+
+To start:
+python python-repl-server.py 8080 "g:g"
 """
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer

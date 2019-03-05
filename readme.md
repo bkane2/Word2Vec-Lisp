@@ -4,7 +4,48 @@ Word2Vec prototype for Lisp
 Requires [Allegro Common Lisp](https://franz.com/products/allegro-common-lisp/) and [Quicklisp](https://www.quicklisp.org/beta/)
 
 
-Example useage:
+How to use:
+
+First, start the Python REPL server:
+```python
+python python-repl-server.py 8080 "g:g"
+```
+
+Then, start Allegro Common Lisp:
+
+```lisp
+(load "load")
+(in-package :word2vec)
+
+;; OPTION 1
+;; Train a custom model. 
+;; ---------------------------
+;; input := a list of strings to be trained on
+;; embed-size := integer (size of word embedding)
+;; window-size := integer (size of CBOW/skip-gram window)
+;; min_count := minimum number of times a word must appear in input to be included in embedding
+;; workers := number of threads to use
+;; epochs := number of epochs to train
+(word2vec-init-train input embed-size window-size min_count workers epochs)
+
+;; OPTION 2
+;; Load a pre-trained model.
+;; ---------------------------
+;; filename := a string representing the filename of a model file stored in ./model.
+;; NOTE: the file must be a binary file, i.e. the filename must end in '.bin'.
+;; e.g. (word2vec-init-pretrained "GoogleNews-vectors-negative300.bin")
+(word2vec-init-pretrained filename)
+
+;; Get cosine similarity between two words.
+(similarity "pond" "lake")
+
+;; Get topn most similar words to a given word.
+(most-similar "dog" 5)
+```
+
+
+
+Pure lisp implementation (in directory "lisp-implementation"):
 ```lisp
 ;; For best results, preproccess input to remove punctuation and special characters (and optionally, stopwords)
 (setq example "babies do not start intellectually as tabulae rasae they rapidly build abstract knowledge and
