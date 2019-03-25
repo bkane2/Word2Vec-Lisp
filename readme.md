@@ -5,7 +5,6 @@ Some Lisp tools for interfacing with Gensim's Word2Vec implementaton in Python v
 - [Quicklisp](https://www.quicklisp.org/beta/)
 - [ASDF version 3 or above](https://common-lisp.net/project/asdf/archives/asdf.lisp)
 - cl-strings (loaded automatically via quicklisp)
-- inferior-shell (loaded automatically via quicklisp)
 - drakma (loaded automatically via quicklisp)
 - cl-json (loaded automatically via quicklisp)
 
@@ -13,7 +12,9 @@ Some Lisp tools for interfacing with Gensim's Word2Vec implementaton in Python v
 1. Install quicklisp by following instructions at https://www.quicklisp.org/beta/
 2. Download the latest asdf.lisp file and include it in your lisp start-up script (e.g. `.clinit.cl`)
 3. Then place the other depenedencies listed above in a folder accessible to Quicklisp or ASDF (which underlies quicklisp).  How to do this in a couple ways is described by the following Stack Overflow answer https://stackoverflow.com/a/11265601.
-4. If you need a Python virtual environment, get [virtualenv](https://virtualenv.pypa.io/en/latest/#) (`cs.rochester.edu` already has it) and start a virtual environment. I also recommend [pyenv](https://github.com/pyenv/pyenv) and [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) for better management of virtual environments.
+4. Note that if you get a MISSING-DEPENDENCY error the first time you try to load, you may need to quickload the dependencies manually
+the first time, e.g. `(ql:quickload :cl-ppcre)`. It should load them automatically after that.
+5. If you need a Python virtual environment, get [virtualenv](https://virtualenv.pypa.io/en/latest/#) (`cs.rochester.edu` already has it) and start a virtual environment. I also recommend [pyenv](https://github.com/pyenv/pyenv) and [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) for better management of virtual environments.
 
 ## Running the Code
 First, start the Python REPL server:
@@ -53,9 +54,10 @@ Then, start Allegro Common Lisp:
 (most-similar "dog" 5)
 ```
 
+## Pure lisp implementation (in directory "lisp-implementation"):
+Note: This implementation still needs a number of improvements (particularly, negative sampling and/or
+hierarchical softmax); it is just a prototype currently.
 
-
-Pure lisp implementation (in directory "lisp-implementation"):
 ```lisp
 ;; For best results, preproccess input to remove punctuation and special characters (and optionally, stopwords)
 (setq example "babies do not start intellectually as tabulae rasae they rapidly build abstract knowledge and
