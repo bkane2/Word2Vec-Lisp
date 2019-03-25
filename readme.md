@@ -55,8 +55,8 @@ Then, start Allegro Common Lisp:
 ```
 
 ## Pure lisp implementation (in directory "lisp-implementation"):
-Note: This implementation still needs a number of improvements (particularly, negative sampling and/or
-hierarchical softmax); it is just a prototype currently.
+### Note: This implementation still needs a number of improvements (particularly, negative sampling and/or
+### hierarchical softmax); it is just a prototype currently.
 
 ```lisp
 ;; For best results, preproccess input to remove punctuation and special characters (and optionally, stopwords)
