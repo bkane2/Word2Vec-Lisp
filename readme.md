@@ -15,7 +15,7 @@ Some Lisp tools for interfacing with Gensim's Word2Vec implementaton in Python v
 4. Note that if you get a MISSING-DEPENDENCY error the first time you try to load, you may need to quickload the dependencies manually the first time, e.g. `(ql:quickload :cl-ppcre)`. It should load them automatically after that.
 5. If you need a Python virtual environment, get [virtualenv](https://virtualenv.pypa.io/en/latest/#) (`cs.rochester.edu` already has it) and start a virtual environment. I also recommend [pyenv](https://github.com/pyenv/pyenv) and [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) for better management of virtual environments.
 
-## Running the Code
+## Running the Gensim interface
 First, start the Python REPL server:
 ```python
 python python-repl-server.py 8080 "g:g"
@@ -53,8 +53,10 @@ Then, start Allegro Common Lisp:
 (most-similar "dog" 5)
 ```
 
-## Pure lisp implementation (in directory "lisp-implementation"):
-### Note: This implementation still needs a number of improvements (particularly, negative sampling and/or hierarchical softmax); it is just a prototype currently.
+## Pure lisp implementation
+Note: This implementation still needs a number of improvements (particularly, negative sampling and/or hierarchical softmax); it is just a prototype currently.
+
+In directory `lisp-implementation`.
 
 ```lisp
 ;; For best results, preproccess input to remove punctuation and special characters (and optionally, stopwords)
