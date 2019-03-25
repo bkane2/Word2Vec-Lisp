@@ -49,7 +49,7 @@ Then, start Allegro Common Lisp:
 ;; Get cosine similarity between two words.
 (similarity "pond" "lake")
 
-;; Get topn most similar words to a given word.
+;; Get top n most similar words to a given word.
 (most-similar "dog" 5)
 ```
 
