@@ -4,6 +4,6 @@
 (in-package :cl-user)
 
 (defpackage :word2vec
-  (:use :cl :util :cl-strings :inferior-shell :drakma :cl-json)
+  (:use :cl :util :cl-strings :drakma :cl-json)
   (:export word2vec))
 

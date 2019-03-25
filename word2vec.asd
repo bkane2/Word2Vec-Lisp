@@ -5,7 +5,7 @@
   :name "word2vec"
   :version "0.0.1"
   :author "Gene Louis Kim, Ben Kane"
-  :depends-on (:ttt :util :cl-strings :inferior-shell :drakma :cl-json)
+  :depends-on (:util :cl-strings :drakma :cl-json)
   :components ((:file "package")
                (:file "python-server-lib")
                (:file "word2vec"))) 
