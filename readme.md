@@ -1,11 +1,21 @@
-Word2Vec prototype for Lisp
+# Word2Vec-Lisp
+Some Lisp tools for interfacing with Gensim's Word2Vec implementaton in Python via socket, as well as a simple implementation of the Word2Vec algorithm in Lisp.
 
-** NOTE: Update dependencies **
-Requires [Allegro Common Lisp](https://franz.com/products/allegro-common-lisp/) and [Quicklisp](https://www.quicklisp.org/beta/)
+## Dependencies
+- [Quicklisp](https://www.quicklisp.org/beta/)
+- [ASDF version 3 or above](https://common-lisp.net/project/asdf/archives/asdf.lisp)
+- cl-strings (loaded automatically via quicklisp)
+- inferior-shell (loaded automatically via quicklisp)
+- drakma (loaded automatically via quicklisp)
+- cl-json (loaded automatically via quicklisp)
 
+## Installation
+1. Install quicklisp by following instructions at https://www.quicklisp.org/beta/
+2. Download the latest asdf.lisp file and include it in your lisp start-up script (e.g. `.clinit.cl`)
+3. Then place the other depenedencies listed above in a folder accessible to Quicklisp or ASDF (which underlies quicklisp).  How to do this in a couple ways is described by the following Stack Overflow answer https://stackoverflow.com/a/11265601.
+4. If you need a Python virtual environment, get [virtualenv](https://virtualenv.pypa.io/en/latest/#) (`cs.rochester.edu` already has it) and start a virtual environment. I also recommend [pyenv](https://github.com/pyenv/pyenv) and [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) for better management of virtual environments.
 
-How to use:
-
+## Running the Code
 First, start the Python REPL server:
 ```python
 python python-repl-server.py 8080 "g:g"
